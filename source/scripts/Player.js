@@ -7,9 +7,17 @@ export default class Kitty extends Pixi.Sprite {
         TEXTURE = TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
         super(TEXTURE)
 
+        this.tint = 0xDE771A
+
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.tint = 0xDE771A
+        this.position.x = 426 / 5
+        this.position.y = 20
+
+        this.stack = 0
+    }
+    update(delta) {
+        this.position.x += 1
     }
 }

@@ -1,5 +1,8 @@
+import * as Pixi from "pixi.js"
 import Statgrab from "statgrab/do"
 import Yaafloop from "yaafloop"
+
+Pixi.settings.SCALE_MODE = Pixi.SCALE_MODES.NEAREST
 
 import Game from "scripts/Game.js"
 var game = new Game()
