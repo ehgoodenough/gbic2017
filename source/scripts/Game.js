@@ -5,6 +5,7 @@ import Scene from "scripts/Scene.js"
 
 import {FRAME} from "scripts/Constants.js"
 const STAR_COUNT = 100
+const SCALE = 2
 
 export default class Game extends Pixi.Container {
     constructor() {
@@ -13,10 +14,13 @@ export default class Game extends Pixi.Container {
         window.game = this
 
         this.renderer = Pixi.autoDetectRenderer({
-            width: FRAME.WIDTH,
-            height: FRAME.HEIGHT,
+            width: FRAME.WIDTH * SCALE,
+            height: FRAME.HEIGHT * SCALE,
             transparent: true
         })
+
+        this.scale.x = SCALE
+        this.scale.y = SCALE
 
         for(var i = 0; i < STAR_COUNT; i += 1) {
             this.addChild(new Star())
