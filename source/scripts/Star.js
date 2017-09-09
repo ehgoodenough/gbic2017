@@ -9,7 +9,7 @@ export default class Star extends Pixi.Sprite {
         super(TEXTURE)
 
         this.position.x = Math.random() * FRAME.WIDTH
-        this.position.y = Math.random() * FRAME.HEIGHT
+        this.position.y = Math.random() * FRAME.HEIGHT * (2/3)
 
         this.width = this.height = Math.ceil(Math.random() * 2)
 
@@ -19,7 +19,7 @@ export default class Star extends Pixi.Sprite {
         this.position.x -= this.speed
         if(this.position.x <= -5) {
             this.position.x += 5 + FRAME.WIDTH + 5
-            this.position.y = Math.random() * FRAME.HEIGHT
+            this.position.y = Math.random() * FRAME.HEIGHT * (2/3)
         }
 
         this.rotation += 0.01

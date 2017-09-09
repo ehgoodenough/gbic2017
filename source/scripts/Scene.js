@@ -11,7 +11,7 @@ export default class Scene extends Pixi.Container {
         super()
 
         this.position.x = 0
-        this.position.y = FRAME.HEIGHT * 0.5
+        this.position.y = FRAME.HEIGHT * 0.666
 
         this.addChild(new Player())
 
@@ -28,7 +28,7 @@ export default class Scene extends Pixi.Container {
             }
         })
 
-        this.position.x -= 1
+        this.position.x = -1 * (this.player.position.x - (FRAME.WIDTH / 5))
     }
     addChild(child) {
         super.addChild(child)

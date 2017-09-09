@@ -31,7 +31,8 @@ export default class PianoKey extends Pixi.Sprite {
         }
 
         if(this.type == "white") {
-            if(Math.abs(this.position.x - this.parent.player.position.x) < WHITE_WIDTH / 2) {
+            if(this.parent.player.position.y == 0
+            && Math.abs(this.position.x - this.parent.player.position.x) < WHITE_WIDTH / 2) {
                 this.position.y = 4
             } else {
                 this.position.y = 0
