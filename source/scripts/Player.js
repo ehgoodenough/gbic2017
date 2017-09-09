@@ -2,11 +2,19 @@ import * as Pixi from "pixi.js"
 import Keyb from "keyb"
 
 var IDLE_TEXTURE = undefined
+var HAPPY_TEXTURE = undefined
+
 var GRAVITY = 0.5
+var JUMP_FORCE = -10
+var SPIN_FORCE = Math.PI * 3
+var SPIN_ON_NTH_JUMP = 5
+
+import {FRAME} from "scripts/Constants.js"
 
 export default class Kitty extends Pixi.Sprite {
     constructor() {
         IDLE_TEXTURE = IDLE_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
+        HAPPY_TEXTURE = HAPPY_TEXTURE || Pixi.Texture.from(require("images/kitty-happy.png"))
         super(IDLE_TEXTURE)
 
         this.tint = 0xDE771A
@@ -14,32 +22,53 @@ export default class Kitty extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.position.x = 426 / 5
+        this.position.x = FRAME.WIDTH / 5
         this.position.y = 0
 
-        this.velocity = {x: +2.5, y: 0}
+        this.velocity = {x: +2.5, y: 0, r: 0}
+
+        this.time = 0
+        this.jumpcount = 0
     }
     update(delta) {
-        this.time = this.time || 0
         this.time += delta.ms
 
+        // Deceleration via gravity
         this.velocity.y += GRAVITY
-
-        if(Keyb.isJustDown("<space>")) {
-            this.velocity.y = -10
+        this.velocity.r -= GRAVITY
+        if(this.velocity.r < 0) {
+            this.velocity.r = 0
         }
 
+        // Polling for inputs
+        if(Keyb.isDown("<space>")) {
+            if(this.position.y == 0) {
+                this.velocity.y = JUMP_FORCE
+
+                this.jumpcount += 1
+                if(this.jumpcount % SPIN_ON_NTH_JUMP == 0) {
+                    this.velocity.r = SPIN_FORCE
+                }
+            }
+        }
+
+        // Translation via velocity
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
+        this.rotation += this.velocity.r
 
+        // Collision with ground
         if(this.position.y > 0) {
             this.position.y = 0
             this.velocity.y = 0
         }
 
+        // Effects whil jumping
         if(this.position.y == 0) {
+            this.texture = IDLE_TEXTURE
             this.rotation = Math.sin(this.time / 100) * (Math.PI / 8)
-            // this.anchor.x = 0.5 + (Math.cos(this.time / 100) * 0.1)
+        } else {
+            this.texture = HAPPY_TEXTURE
         }
 
         if(this.velocity.y > 0) {
