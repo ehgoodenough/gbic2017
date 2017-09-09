@@ -29,21 +29,35 @@ export default class Kitty extends Pixi.Sprite {
 
         this.time = 0
         this.jumpcount = 0
+        this.bam = 0
     }
     update(delta) {
         this.time += delta.ms
 
-        // Deceleration via gravity
-        this.velocity.y += GRAVITY
+        // Deceleration of spin
         this.velocity.r -= GRAVITY
         if(this.velocity.r < 0) {
             this.velocity.r = 0
+        }
+
+        // Deceleration of jump
+        if(this.position.y < 0) {
+            this.velocity.y += GRAVITY
+        }
+
+        // Diffusion of bam
+        if(this.bam > 0) {
+            this.bam -= delta.ms
+            if(this.bam < 0) {
+                this.bam = 0
+            }
         }
 
         // Polling for inputs
         if(Keyb.isDown("<space>")) {
             if(this.position.y == 0) {
                 this.velocity.y = JUMP_FORCE
+                this.rotation = Math.random() * (Math.PI / 2) - (Math.PI / 4)
 
                 this.jumpcount += 1
                 if(this.jumpcount % SPIN_ON_NTH_JUMP == 0) {
@@ -59,11 +73,12 @@ export default class Kitty extends Pixi.Sprite {
 
         // Collision with ground
         if(this.position.y > 0) {
+            this.bam = 100
             this.position.y = 0
             this.velocity.y = 0
         }
 
-        // Effects whil jumping
+        // Effects while jumping
         if(this.position.y == 0) {
             this.texture = IDLE_TEXTURE
             this.rotation = Math.sin(this.time / 100) * (Math.PI / 8)
