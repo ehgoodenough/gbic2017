@@ -2,6 +2,7 @@ import * as Pixi from "pixi.js"
 
 import Player from "scripts/Player.js"
 import PianoKey from "scripts/PianoKey.js"
+import Sharp from "scripts/Sharp.js"
 
 import {FRAME} from "scripts/Constants.js"
 const PIANO_LENGTH = 14
@@ -14,6 +15,7 @@ export default class Scene extends Pixi.Container {
         this.position.y = FRAME.HEIGHT * 0.666
 
         this.addChild(new Player())
+        this.addChild(new Sharp())
 
         for(var i = 0; i < PIANO_LENGTH; i += 1) {
             this.addChild(new PianoKey(i, "white"))

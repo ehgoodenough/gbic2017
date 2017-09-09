@@ -25,7 +25,7 @@ export default class Kitty extends Pixi.Sprite {
         this.position.x = FRAME.WIDTH / 5
         this.position.y = 0
 
-        this.velocity = {x: +2.5, y: 0, r: 0}
+        this.velocity = {x: +3.5, y: 0, r: 0}
 
         this.time = 0
         this.jumpcount = 0
