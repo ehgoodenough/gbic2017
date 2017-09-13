@@ -9,15 +9,19 @@ var JUMP_FORCE = -10
 var SPIN_FORCE = Math.PI * 3
 var SPIN_ON_NTH_JUMP = 5
 
+var SQUEEZE = 0.2
+
+import {MAIN_COLORS} from "scripts/Constants.js"
+
 import {FRAME} from "scripts/Constants.js"
 
 export default class Kitty extends Pixi.Sprite {
     constructor() {
         IDLE_TEXTURE = IDLE_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
-        HAPPY_TEXTURE = HAPPY_TEXTURE || Pixi.Texture.from(require("images/kitty-happy.png"))
+        HAPPY_TEXTURE = HAPPY_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
         super(IDLE_TEXTURE)
 
-        this.tint = 0xDE771A
+        this.tint = MAIN_COLORS[0]
 
         this.anchor.x = 0.5
         this.anchor.y = 0.5
@@ -57,7 +61,7 @@ export default class Kitty extends Pixi.Sprite {
         if(Keyb.isDown("<space>")) {
             if(this.position.y == 0) {
                 this.velocity.y = JUMP_FORCE
-                this.rotation = Math.random() * (Math.PI / 2) - (Math.PI / 4)
+                // this.rotation = Math.random() * (Math.PI / 2) - (Math.PI / 4)
 
                 this.jumpcount += 1
                 if(this.jumpcount % SPIN_ON_NTH_JUMP == 0) {
@@ -86,12 +90,9 @@ export default class Kitty extends Pixi.Sprite {
             this.texture = HAPPY_TEXTURE
         }
 
-        if(this.velocity.y > 0) {
-            this.scale.x = 1 + 0.1
-            this.scale.y = 1 - 0.1
-        } else if(this.velocity.y < 0) {
-            this.scale.x = 1 - 0.1
-            this.scale.y = 1 + 0.1
+        if(this.velocity.y < 0) {
+            this.scale.x = 1 - SQUEEZE
+            this.scale.y = 1 + SQUEEZE
         } else {
             this.scale.x = 1
             this.scale.y = 1

@@ -7,6 +7,8 @@ var GAP = 2
 var WHITE_WIDTH = 33
 var BLACK_HEIGHT = 50
 
+var KEYS = ".....1.a...1.b..c..d..e"
+
 import {COLORS} from "scripts/Constants.js"
 
 export default class PianoKey extends Pixi.Sprite {

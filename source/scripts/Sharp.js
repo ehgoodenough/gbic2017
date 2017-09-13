@@ -5,14 +5,14 @@ import {FRAME} from "scripts/Constants.js"
 
 export default class Sharp extends Pixi.Sprite {
     constructor() {
-        TEXTURE = TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
+        TEXTURE = TEXTURE || Pixi.Texture.from(require("images/single-flat.png"))
         super(TEXTURE)
 
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.tint = 0x000000
-        this.scale.x = -1
+        this.tint = 0xDE771A
+
         this.stack = -1
     }
 
