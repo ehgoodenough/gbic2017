@@ -29,9 +29,19 @@ export default class Accidental extends Pixi.Sprite {
             this.parent.removeChild(this)
             return
         }
-        
+
         if(getDistance(this.position, this.parent.player.position) < (this.width / 2) + (this.parent.player.width / 2)) {
-            throw -1
+            this.parent.killScene()
+        }
+
+        this.anchor.x = (Math.random() * this.shake) - (this.shake / 2) + 0.5
+        this.anchor.y = (Math.random() * this.shake) - (this.shake / 2) + 0.5
+    }
+    get shake() {
+        if(this.glyph.toUpperCase() == "A") {
+            return 0.05
+        } else {
+            return 0.1
         }
     }
     static shouldSpawn(index, glyph) {

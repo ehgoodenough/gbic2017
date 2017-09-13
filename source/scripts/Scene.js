@@ -9,7 +9,14 @@ import Accidental from "scripts/Accidental.js"
 const PIANO_LENGTH = 14
 
 var STAGE = {}
-STAGE.GLYPHS = ".12345....A......a....12345...b.....",
+STAGE.GLYPHS = ".............."
+STAGE.GLYPHS += ".1...2...4...5"
+STAGE.GLYPHS += ".....b.31"
+STAGE.GLYPHS += ".....a..3.A..4.a.2"
+STAGE.GLYPHS += ".....1.5.2.4..C"
+STAGE.GLYPHS += "....55..33..11.."
+STAGE.GLYPHS += "....bB....."
+STAGE.GLYPHS += "_____"
 STAGE.BPM = 1
 
 export default class Scene extends Pixi.Container {
@@ -28,6 +35,21 @@ export default class Scene extends Pixi.Container {
         }
     }
     update(delta) {
+        if(this.kill > 0) {
+            this.kill += delta.s
+
+            if(this.kill > 1.5) {
+                this.parent.scene = new Scene()
+                this.parent.addChild(this.parent.scene)
+                this.parent.removeChild(this)
+            }
+            return
+        }
+
+        if(this.victory) {
+            document.getElementById("victory").style.display = "block"
+        }
+
         this.children.forEach((child) => {
             if(child.update instanceof Function) {
                 child.update(delta)
@@ -53,6 +75,9 @@ export default class Scene extends Pixi.Container {
         if(BlackPianoKey.shouldSpawn(this. index, glyph)) {
             this.addChild(new BlackPianoKey(this.index))
         }
+    }
+    killScene() {
+        this.kill = 0.01
     }
     addChild(child) {
         super.addChild(child)
