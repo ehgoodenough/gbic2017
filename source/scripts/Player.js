@@ -11,7 +11,7 @@ var SPIN_ON_NTH_JUMP = 5
 
 var SQUEEZE = 0.2
 
-import {MAIN_COLORS} from "scripts/Constants.js"
+import {COLORS} from "scripts/Constants.js"
 
 import {FRAME} from "scripts/Constants.js"
 
@@ -21,7 +21,7 @@ export default class Player extends Pixi.Sprite {
         HAPPY_TEXTURE = HAPPY_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
         super(IDLE_TEXTURE)
 
-        this.tint = MAIN_COLORS[0]
+        this.tint = COLORS[1]
 
         this.anchor.x = 0.5
         this.anchor.y = 0.5
@@ -98,7 +98,8 @@ export default class Player extends Pixi.Sprite {
             this.scale.y = 1
         }
     }
-    woohoo() {
+    woohoo(pianokey) {
+        this.tint = COLORS[pianokey.glyph]
         console.log("woohoo")
     }
 }

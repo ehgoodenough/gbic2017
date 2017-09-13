@@ -9,10 +9,4 @@ export const COLORS = {
     5: 0x00A6FF,
 }
 
-export const MAIN_COLORS = [
-    0xF377D5,
-    0xECB2CF,
-    0xFFBD44,
-    0xCEBCFF,
-    0x00A6FF,
-]
+export const TILE = 33 + 2

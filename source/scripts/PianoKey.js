@@ -8,55 +8,55 @@ var WHITE_WIDTH = 33
 var BLACK_HEIGHT = 50
 var TILE = WHITE_WIDTH + GAP
 
-var STAGE = {
-    TILES: ".12345.abABC..",
-    BPM: 1
-}
-
 import {COLORS} from "scripts/Constants.js"
 
 class PianoKey extends Pixi.Sprite {
-    constructor(texture, index) {
+    constructor(texture) {
         super(texture)
-
-        this.index = index
-        this.position.x = this.index * TILE
 
         this.anchor.x = 0.5
         this.anchor.y = 0.5
     }
     update(delta) {
-        if(this.position.x < -1 * this.parent.position.x - WHITE_WIDTH) {
+        if(this.position.x + this.width < -1 * this.parent.position.x) {
             this.position.x += TILE * 14
+            // this.parent.removeChild(this)
+            // return
         }
     }
 }
 
 export class BlackPianoKey extends PianoKey {
-    constructor(index) {
+    constructor(index, glyph) {
         BLACK_TEXTURE = BLACK_TEXTURE || Pixi.Texture.from(require("images/black-key.png"))
-        super(BLACK_TEXTURE, index)
+        super(BLACK_TEXTURE)
 
         this.stack = -10
 
-        this.position.x += WHITE_WIDTH / 2 + 1
+        this.position.x = (index * TILE) + WHITE_WIDTH / 2 + 1
         this.position.y = -1 * ((BLACK_HEIGHT / 2) - 2)
+    }
+    static shouldSpawn(index) {
+        return (index % 7) % 4 != 0
     }
 }
 
 export class WhitePianoKey extends PianoKey {
-    constructor(index) {
+    constructor(index, glyph) {
         WHITE_TEXTURE = WHITE_TEXTURE || Pixi.Texture.from(require("images/white-key.png"))
-        super(WHITE_TEXTURE, index)
+        super(WHITE_TEXTURE)
 
         this.stack = -11
 
-        this.tile = STAGE.TILES[this.index]
+        this.index = index
+        this.glyph = glyph
 
-        this.isHighlighted = /[12345]/.test(this.tile)
-        this.isAccidental = /[ab ABC]/.test(this.tile)
+        this.position.x = (index * TILE)
 
-        this.tint = COLORS[this.tile] || 0xFFFFFF
+        this.isHighlighted = /[12345]/.test(this.glyph)
+        this.isAccidental = /[abABC]/.test(this.glyph)
+
+        this.tint = COLORS[this.glyph] || 0xFFFFFF
     }
     update(delta) {
         super.update(delta)
@@ -72,7 +72,7 @@ export class WhitePianoKey extends PianoKey {
                         this.isHighlighted = false
                         this.tint = 0xFFFFFF
 
-                        this.parent.player.woohoo()
+                        this.parent.player.woohoo(this)
                     }
                 }
             } else {
@@ -80,6 +80,10 @@ export class WhitePianoKey extends PianoKey {
             }
         } else {
             this.position.y = 0
+        }
+
+        if(this.isAccidental) {
+            this.position.y = 4
         }
     }
     isOn() {
