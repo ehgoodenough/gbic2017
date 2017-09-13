@@ -1,7 +1,8 @@
 import * as Pixi from "pixi.js"
 
 import Player from "scripts/Player.js"
-import PianoKey from "scripts/PianoKey.js"
+import {WhitePianoKey} from "scripts/PianoKey.js"
+import {BlackPianoKey} from "scripts/PianoKey.js"
 import Sharp from "scripts/Sharp.js"
 
 import {FRAME} from "scripts/Constants.js"
@@ -18,9 +19,9 @@ export default class Scene extends Pixi.Container {
         this.addChild(new Sharp())
 
         for(var i = 0; i < PIANO_LENGTH; i += 1) {
-            this.addChild(new PianoKey(i, "white"))
+            this.addChild(new WhitePianoKey(i))
             if((i % 7) % 4 == 0) continue
-            this.addChild(new PianoKey(i, "black"))
+            this.addChild(new BlackPianoKey(i))
         }
     }
     update(delta) {
@@ -34,11 +35,6 @@ export default class Scene extends Pixi.Container {
     }
     addChild(child) {
         super.addChild(child)
-
-        if(child instanceof PianoKey) {
-            this.piano = this.piano || []
-            this.piano.push(child)
-        }
 
         if(child instanceof Player) {
             this.player = child

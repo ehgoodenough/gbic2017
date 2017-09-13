@@ -26,7 +26,7 @@ export default class Game extends Pixi.Container {
             this.addChild(new Star())
         }
 
-        this.addChild(new Scene())
+        this.addChild(this.scene = new Scene())
     }
     update(delta) {
         this.children.forEach((child) => {

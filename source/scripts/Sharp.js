@@ -11,8 +11,6 @@ export default class Sharp extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.tint = 0xDE771A
-
         this.stack = -1
     }
 

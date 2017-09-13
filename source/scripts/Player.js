@@ -15,7 +15,7 @@ import {MAIN_COLORS} from "scripts/Constants.js"
 
 import {FRAME} from "scripts/Constants.js"
 
-export default class Kitty extends Pixi.Sprite {
+export default class Player extends Pixi.Sprite {
     constructor() {
         IDLE_TEXTURE = IDLE_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
         HAPPY_TEXTURE = HAPPY_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
@@ -97,5 +97,8 @@ export default class Kitty extends Pixi.Sprite {
             this.scale.x = 1
             this.scale.y = 1
         }
+    }
+    woohoo() {
+        console.log("woohoo")
     }
 }

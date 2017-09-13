@@ -6,67 +6,84 @@ var BLACK_TEXTURE = undefined
 var GAP = 2
 var WHITE_WIDTH = 33
 var BLACK_HEIGHT = 50
+var TILE = WHITE_WIDTH + GAP
 
-var KEYS = ".....1.a...1.b..c..d..e"
+var STAGE = {
+    TILES: ".12345.abABC..",
+    BPM: 1
+}
 
 import {COLORS} from "scripts/Constants.js"
 
-export default class PianoKey extends Pixi.Sprite {
-    constructor(index, type) {
-        WHITE_TEXTURE = WHITE_TEXTURE || Pixi.Texture.from(require("images/white-key.png"))
-        BLACK_TEXTURE = BLACK_TEXTURE || Pixi.Texture.from(require("images/black-key.png"))
-        super(type == "black" ? BLACK_TEXTURE : WHITE_TEXTURE)
+class PianoKey extends Pixi.Sprite {
+    constructor(texture, index) {
+        super(texture)
 
-        this.type = type || "white"
-        this.index = index || 0
-
-        this.position.x = this.index * (WHITE_WIDTH + GAP)
-        this.position.x += (this.type == "black" ? WHITE_WIDTH / 2 + 1 : 0)
-        this.position.y = (this.type == "black" ? -1 * ((BLACK_HEIGHT / 2) - 2) : 0)
-
-        this.stack = (this.type == "black" ? -10.1 : -10.2)
+        this.index = index
+        this.position.x = this.index * TILE
 
         this.anchor.x = 0.5
         this.anchor.y = 0.5
-
-        this.rerandomize()
-    }
-    rerandomize() {
-        if(this.type == "white") {
-            this.isSpecial = Math.random() < 0.1
-            this.tint = this.isSpecial ? COLORS.ORANGE : 0xFFFFFF
-            this.isStruck = false
-        }
     }
     update(delta) {
         if(this.position.x < -1 * this.parent.position.x - WHITE_WIDTH) {
-            this.position.x += (WHITE_WIDTH + GAP) * 14 // fourteen is the amount of white keys
-
-            this.rerandomize()
+            this.position.x += TILE * 14
         }
+    }
+}
 
-        if(this.type == "white") {
-            if(this.parent.player !== undefined) {
-                if(this.parent.player.position.y == 0
-                && Math.abs(this.position.x - this.parent.player.position.x) < WHITE_WIDTH * 0.75) {
-                    if(this.parent.player.bam > 0) {
-                        this.position.y = 12
+export class BlackPianoKey extends PianoKey {
+    constructor(index) {
+        BLACK_TEXTURE = BLACK_TEXTURE || Pixi.Texture.from(require("images/black-key.png"))
+        super(BLACK_TEXTURE, index)
 
-                        if(this.isStruck != true) {
-                            this.isStruck = true
-                            this.tint = 0xFFFFFF
+        this.stack = -10
 
-                            if(this.isSpecial) {
-                                console.log("DING")
-                            }
-                        }
-                    } else {
-                        this.position.y = 4
+        this.position.x += WHITE_WIDTH / 2 + 1
+        this.position.y = -1 * ((BLACK_HEIGHT / 2) - 2)
+    }
+}
+
+export class WhitePianoKey extends PianoKey {
+    constructor(index) {
+        WHITE_TEXTURE = WHITE_TEXTURE || Pixi.Texture.from(require("images/white-key.png"))
+        super(WHITE_TEXTURE, index)
+
+        this.stack = -11
+
+        this.tile = STAGE.TILES[this.index]
+
+        this.isHighlighted = /[12345]/.test(this.tile)
+        this.isAccidental = /[ab ABC]/.test(this.tile)
+
+        this.tint = COLORS[this.tile] || 0xFFFFFF
+    }
+    update(delta) {
+        super.update(delta)
+
+        if(this.isOn()) {
+            if(this.parent.player.bam > 0) {
+                this.position.y = 12
+
+                if(this.wasStruck != true) {
+                    this.wasStruck = true
+
+                    if(this.isHighlighted) {
+                        this.isHighlighted = false
+                        this.tint = 0xFFFFFF
+
+                        this.parent.player.woohoo()
                     }
-                } else {
-                    this.position.y = 0
                 }
+            } else {
+                this.position.y = 4
             }
+        } else {
+            this.position.y = 0
         }
+    }
+    isOn() {
+        return this.parent.player.position.y == 0
+            && Math.abs(this.position.x - this.parent.player.position.x) < WHITE_WIDTH * (3/4)
     }
 }
