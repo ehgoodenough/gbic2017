@@ -29,8 +29,7 @@ export default class Accidental extends Pixi.Sprite {
             this.parent.removeChild(this)
             return
         }
-
-        // console.log(getDistance(this.position, this.parent.player.position))
+        
         if(getDistance(this.position, this.parent.player.position) < (this.width / 2) + (this.parent.player.width / 2)) {
             throw -1
         }

@@ -4,19 +4,13 @@ import Player from "scripts/Player.js"
 import {WhitePianoKey} from "scripts/PianoKey.js"
 import {BlackPianoKey} from "scripts/PianoKey.js"
 
-import {FRAME} from "scripts/Constants.js"
+import {FRAME, TILE} from "scripts/Constants.js"
 import Accidental from "scripts/Accidental.js"
 const PIANO_LENGTH = 14
 
-var STAGE = {
-    TILES: ".12345.abABC..",
-    GLYPHS: ".........a....12345........",
-    BPM: 1
-}
-// this.accidental = new Accidental({
-//     index: this.index,
-//     glyph: this.glyph
-// })
+var STAGE = {}
+STAGE.GLYPHS = ".12345....A......a....12345...b.....",
+STAGE.BPM = 1
 
 export default class Scene extends Pixi.Container {
     constructor() {
@@ -27,8 +21,10 @@ export default class Scene extends Pixi.Container {
 
         this.addChild(new Player())
 
+        this.index = 0
+
         for(var i = 0; i < PIANO_LENGTH; i += 1) {
-            this.extendStage(i)
+            this.extendStage()
         }
     }
     update(delta) {
@@ -39,18 +35,23 @@ export default class Scene extends Pixi.Container {
         })
 
         this.position.x = -1 * (this.player.position.x - (FRAME.WIDTH / 4))
+
+        if((-1 * this.position.x) + FRAME.WIDTH > this.index * TILE) {
+            this.extendStage(this.index)
+        }
     }
-    extendStage(index) {
-        var glyph = STAGE.GLYPHS[index] || "."
+    extendStage() {
+        this.index = this.index + 1 || 0
+        var glyph = STAGE.GLYPHS[this.index] || "."
 
-        this.addChild(new WhitePianoKey(index, glyph))
+        this.addChild(new WhitePianoKey(this.index, glyph))
 
-        if(Accidental.shouldSpawn(index, glyph)) {
-            this.addChild(new Accidental(index, glyph))
+        if(Accidental.shouldSpawn(this.index, glyph)) {
+            this.addChild(new Accidental(this.index, glyph))
         }
 
-        if(BlackPianoKey.shouldSpawn(index, glyph)) {
-            this.addChild(new BlackPianoKey(index))
+        if(BlackPianoKey.shouldSpawn(this. index, glyph)) {
+            this.addChild(new BlackPianoKey(this.index))
         }
     }
     addChild(child) {
@@ -58,10 +59,6 @@ export default class Scene extends Pixi.Container {
 
         if(child instanceof Player) {
             this.player = child
-        }
-
-        if(child.accidental) {
-            this.addChild(child.accidental)
         }
 
         this.children.sort((a, b) => {

@@ -93,6 +93,9 @@ export default class Player extends Pixi.Sprite {
         if(this.velocity.y < 0) {
             this.scale.x = 1 - SQUEEZE
             this.scale.y = 1 + SQUEEZE
+        } else if(this.velocity.y > 0) {
+            this.scale.x = 1 + SQUEEZE
+            this.scale.y = 1 - SQUEEZE
         } else {
             this.scale.x = 1
             this.scale.y = 1

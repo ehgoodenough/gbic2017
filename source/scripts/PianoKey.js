@@ -19,9 +19,9 @@ class PianoKey extends Pixi.Sprite {
     }
     update(delta) {
         if(this.position.x + this.width < -1 * this.parent.position.x) {
-            this.position.x += TILE * 14
-            // this.parent.removeChild(this)
-            // return
+            // this.position.x += TILE * 14
+            this.parent.removeChild(this)
+            return
         }
     }
 }
@@ -59,8 +59,6 @@ export class WhitePianoKey extends PianoKey {
         this.tint = COLORS[this.glyph] || 0xFFFFFF
     }
     update(delta) {
-        super.update(delta)
-
         if(this.isOn()) {
             if(this.parent.player.bam > 0) {
                 this.position.y = 12
@@ -85,6 +83,8 @@ export class WhitePianoKey extends PianoKey {
         if(this.isAccidental) {
             this.position.y = 4
         }
+
+        super.update(delta)
     }
     isOn() {
         return this.parent.player.position.y == 0

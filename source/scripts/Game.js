@@ -5,7 +5,7 @@ import Scene from "scripts/Scene.js"
 
 import {FRAME} from "scripts/Constants.js"
 const STAR_COUNT = 100
-const SCALE = 1
+const SCALE = 2
 
 export default class Game extends Pixi.Container {
     constructor() {
