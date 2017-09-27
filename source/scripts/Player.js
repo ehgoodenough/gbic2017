@@ -5,6 +5,7 @@ var WALKING_1_TEXTURE = undefined
 var WALKING_2_TEXTURE = undefined
 var JUMPING_1_TEXTURE = undefined
 var JUMPING_2_TEXTURE = undefined
+var TRAIL_TEXTURE = undefined
 
 var GRAVITY = 0.5
 var JUMP_FORCE = -10
@@ -65,7 +66,6 @@ export default class Player extends Pixi.Sprite {
 
         // Collision with ground
         if(this.position.y + this.velocity.y > 0) {
-            console.log("!")
             this.bam = 100
             this.position.y = 0
             this.velocity.y = 0
@@ -113,5 +113,43 @@ export default class Player extends Pixi.Sprite {
 
         this.score += 1
         MESSAGE.innerHTML = this.score
+
+        this.parent.addChild(new Trail(this.position, this.tint, this.score / 16))
+    }
+}
+
+class Trail extends Pixi.Sprite {
+    constructor(position, tint, timer) {
+        TRAIL_TEXTURE = TRAIL_TEXTURE || Pixi.Texture.from(require("images/trail.png"))
+        super(TRAIL_TEXTURE)
+
+        this.position.x = position.x
+        this.position.y = position.y
+        this.tint = tint
+
+        this.timer = timer
+        this.positions = []
+
+        this.anchor.x = 0.5
+        this.anchor.y = 0.25
+        this.stack = -1 - (timer * 0.01)
+    }
+    update(delta) {
+        if(this.parent.player != undefined) {
+            this.positions.push({
+                x: this.parent.player.position.x,
+                y: this.parent.player.position.y,
+                r: this.parent.player.rotation
+            })
+        }
+
+        this.timer -= delta.s
+        if(this.timer <= 0) {
+            this.timer = 0
+
+            var position = this.positions.shift()
+            this.position = new Pixi.Point(position.x, position.y)
+            this.rotation = position.r
+        }
     }
 }
