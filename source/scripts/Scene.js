@@ -8,6 +8,8 @@ import {FRAME, TILE} from "scripts/Constants.js"
 import Accidental from "scripts/Accidental.js"
 const PIANO_LENGTH = 14
 
+const MESSAGE = document.getElementById("message")
+
 var STAGE = {}
 STAGE.GLYPHS = ".............."
 STAGE.GLYPHS += ".1...2...4...5"
@@ -33,21 +35,13 @@ export default class Scene extends Pixi.Container {
         for(var i = 0; i < PIANO_LENGTH; i += 1) {
             this.extendStage()
         }
+
+        MESSAGE.innerHTML = ""
     }
     update(delta) {
-        if(this.kill > 0) {
-            this.kill += delta.s
-
-            if(this.kill > 1.5) {
-                this.parent.scene = new Scene()
-                this.parent.addChild(this.parent.scene)
-                this.parent.removeChild(this)
-            }
-            return
-        }
-
         if(this.victory) {
-            document.getElementById("victory").style.display = "block"
+            MESSAGE.innerHTML = "YOU WIN!!"
+            MESSAGE.innerHTML += "<small>Your final score was " + this.player.score + "</small>"
         }
 
         this.children.forEach((child) => {
@@ -77,7 +71,12 @@ export default class Scene extends Pixi.Container {
         }
     }
     killScene() {
-        this.kill = 0.01
+        window.hasHitAnyKey = false
+        this.parent.kill = 0.01
+        MESSAGE.innerHTML = "GAME OVER"
+        if(this.player.score > 0) {
+            MESSAGE.innerHTML += "<small>Your final score was " + this.player.score + "</small>"
+        }
     }
     addChild(child) {
         super.addChild(child)

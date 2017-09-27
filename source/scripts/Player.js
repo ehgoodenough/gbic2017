@@ -10,11 +10,11 @@ var GRAVITY = 0.5
 var JUMP_FORCE = -10
 var SPIN_FORCE = Math.PI * 3
 var SPIN_ON_NTH_JUMP = 5
-
 var SQUEEZE = 0.05
 
-import {COLORS} from "scripts/Constants.js"
+const MESSAGE = document.getElementById("message")
 
+import {COLORS} from "scripts/Constants.js"
 import {FRAME} from "scripts/Constants.js"
 
 export default class Player extends Pixi.Sprite {
@@ -38,6 +38,8 @@ export default class Player extends Pixi.Sprite {
         this.time = 0
         this.jumpcount = 0
         this.bam = 0
+
+        this.score = 0
     }
     update(delta) {
         this.time += delta.ms
@@ -107,6 +109,8 @@ export default class Player extends Pixi.Sprite {
     }
     woohoo(pianokey) {
         this.tint = COLORS[pianokey.glyph]
-        console.log("woohoo")
+
+        this.score += 1
+        MESSAGE.innerHTML = this.score
     }
 }

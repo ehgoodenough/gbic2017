@@ -58,7 +58,7 @@ canvas {
     /* Permalink - http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=346 */
 }
 
-#victory {
+#message {
     width: 100%;
     z-index: 10000;
     position: absolute;
@@ -67,6 +67,9 @@ canvas {
     text-align: center;
     font-family: KarenFat;
     padding-top: 0.5em;
+}
 
-    display: none;
+small {
+    display: block;
+    font-size: 0.25em;
 }
