@@ -8,6 +8,8 @@ import {FRAME} from "scripts/Constants.js"
 const STAR_COUNT = 100
 const SCALE = 2
 
+const MESSAGE = document.getElementById("message")
+
 export default class Game extends Pixi.Container {
     constructor() {
         super()
@@ -53,12 +55,21 @@ class MegaScene extends Pixi.Container {
 
         this.addChild(new Planet())
         this.addChild(new Scene())
-        
+
         window.music.currentTime = 0
+        window.music.playbackRate = 1
+        window.music.volume = 0.5
         window.music.play()
     }
     update(delta) {
         if(this.kill > 0) {
+            this.kill += delta.s
+
+            if(this.kill > 3) {
+                MESSAGE.innerHTML = "GAME OVER"
+                MESSAGE.innerHTML += "<small>Hit spacebar to restart</small>"
+            }
+
             if(window.hasHitAnyKey) {
                 this.restart()
             }

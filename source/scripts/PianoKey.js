@@ -62,6 +62,7 @@ export class WhitePianoKey extends PianoKey {
         if(this.isSteppedOn()) {
             if(this.glyph == "_") {
                 this.parent.victory = true
+                window.hasHitAnyKey = false
             }
             if(this.parent.player.bam > 0) {
                 this.position.y = 12

@@ -12,12 +12,12 @@ const MESSAGE = document.getElementById("message")
 
 var STAGE = {}
 STAGE.GLYPHS = ".............."
-STAGE.GLYPHS += ".1...2...4...5"
-STAGE.GLYPHS += ".....b.31"
-STAGE.GLYPHS += ".....a..3.A..4.a.2"
-STAGE.GLYPHS += ".....1.5.2.4..C"
-STAGE.GLYPHS += "....55..33..11.."
-STAGE.GLYPHS += "....bB....."
+// STAGE.GLYPHS += ".1...2...4...5"
+// STAGE.GLYPHS += ".....b.31"
+// STAGE.GLYPHS += ".....a..3.A..4.a.2"
+// STAGE.GLYPHS += ".....1.5.2.4..C"
+// STAGE.GLYPHS += "....55..33..11.."
+// STAGE.GLYPHS += "....bB....."
 STAGE.GLYPHS += "_____"
 STAGE.BPM = 1
 
@@ -39,9 +39,20 @@ export default class Scene extends Pixi.Container {
         MESSAGE.innerHTML = ""
     }
     update(delta) {
+        if(this.isDone) {
+            return
+        }
+
         if(this.victory) {
             MESSAGE.innerHTML = "YOU WIN!!"
             MESSAGE.innerHTML += "<small>Your final score was " + this.player.score + "</small>"
+
+            if(window.hasHitAnyKey == true) {
+                this.parent.addChild(new Pixi.Sprite(Pixi.Texture.from(require("images/credits.png"))))
+                MESSAGE.innerHTML = ""
+                this.isDone = true
+                window.music.loop = false
+            }
         }
 
         this.children.forEach((child) => {
@@ -71,7 +82,8 @@ export default class Scene extends Pixi.Container {
         }
     }
     killScene() {
-        window.music.pause()
+        window.music.playbackRate = 0.5
+        window.music.volume = 0.25
         window.hasHitAnyKey = false
         this.parent.kill = 0.01
         MESSAGE.innerHTML = "GAME OVER"
