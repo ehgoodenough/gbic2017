@@ -12,12 +12,21 @@ const MESSAGE = document.getElementById("message")
 
 var STAGE = {}
 STAGE.GLYPHS = ".............."
-// STAGE.GLYPHS += ".1...2...4...5"
-// STAGE.GLYPHS += ".....b.31"
-// STAGE.GLYPHS += ".....a..3.A..4.a.2"
-// STAGE.GLYPHS += ".....1.5.2.4..C"
-// STAGE.GLYPHS += "....55..33..11.."
-// STAGE.GLYPHS += "....bB....."
+
+STAGE.GLYPHS += ".1...2...4...5"
+STAGE.GLYPHS += ".....b.31"
+STAGE.GLYPHS += ".....a..3.A..4.a.2"
+STAGE.GLYPHS += ".....1.5.2.4..C"
+STAGE.GLYPHS += "....55..33..11.."
+STAGE.GLYPHS += "....bB....."
+
+STAGE.GLYPHS += ".1...2...4...5"
+STAGE.GLYPHS += ".....b.31"
+STAGE.GLYPHS += ".....a..3.A..4.a.2"
+STAGE.GLYPHS += ".....1.5.2.4..C"
+STAGE.GLYPHS += "....55..33..11.."
+STAGE.GLYPHS += "....bB....."
+
 STAGE.GLYPHS += "_____"
 STAGE.BPM = 1
 

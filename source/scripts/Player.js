@@ -63,6 +63,14 @@ export default class Player extends Pixi.Sprite {
             }
         }
 
+        // Collision with ground
+        if(this.position.y + this.velocity.y > 0) {
+            console.log("!")
+            this.bam = 100
+            this.position.y = 0
+            this.velocity.y = 0
+        }
+
         // Polling for inputs
         if(Keyb.isDown("<space>")) {
             if(this.position.y == 0) {
@@ -80,13 +88,6 @@ export default class Player extends Pixi.Sprite {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
         this.rotation += this.velocity.r
-
-        // Collision with ground
-        if(this.position.y > 0) {
-            this.bam = 100
-            this.position.y = 0
-            this.velocity.y = 0
-        }
 
         // Effects while jumping
         if(this.position.y == 0) {

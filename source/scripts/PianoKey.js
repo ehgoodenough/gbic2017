@@ -59,14 +59,8 @@ export class WhitePianoKey extends PianoKey {
         this.tint = COLORS[this.glyph] || 0xFFFFFF
     }
     update(delta) {
-        if(this.isSteppedOn()) {
-            if(this.glyph == "_") {
-                this.parent.victory = true
-                window.hasHitAnyKey = false
-            }
+        if(this.isOn()) {
             if(this.parent.player.bam > 0) {
-                this.position.y = 12
-
                 if(this.wasStruck != true) {
                     this.wasStruck = true
 
@@ -77,6 +71,15 @@ export class WhitePianoKey extends PianoKey {
                         this.parent.player.woohoo(this)
                     }
                 }
+            }
+        }
+        if(this.isSteppedOn()) {
+            if(this.glyph == "_") {
+                this.parent.victory = true
+                window.hasHitAnyKey = false
+            }
+            if(this.parent.player.bam > 0) {
+                this.position.y = 12
             } else {
                 this.position.y = 4
             }
@@ -90,8 +93,11 @@ export class WhitePianoKey extends PianoKey {
 
         super.update(delta)
     }
+    isOn() {
+        return Math.abs(this.position.x - this.parent.player.position.x) < WHITE_WIDTH * (3/4)
+    }
     isSteppedOn() {
         return this.parent.player.position.y == 0
-            && Math.abs(this.position.x - this.parent.player.position.x) < WHITE_WIDTH * (3/4)
+            && this.isOn()
     }
 }
