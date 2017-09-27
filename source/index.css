@@ -20,6 +20,7 @@ body {
 
 @media(min-aspect-ratio: 16/9) {
     #frame {
+        font-size: 11.111vh;
         width: 177.778vh;
         height: 100vh;
     }
@@ -27,6 +28,7 @@ body {
 
 @media(max-aspect-ratio: 16/9) {
     #frame {
+        font-size: 6.25vw;
         height: 56.25vw;
         width: 100vw;
     }
@@ -50,13 +52,21 @@ canvas {
     height: 100%;
 }
 
+@font-face {
+    font-family: "KarenFat";
+    src: url("KarenFat.ttf") format("truetype");
+    /* Permalink - http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=346 */
+}
+
 #victory {
     width: 100%;
     z-index: 10000;
     position: absolute;
 
-    font-size: 5em;
+    font-size: 2em;
     text-align: center;
+    font-family: KarenFat;
+    padding-top: 0.5em;
 
     display: none;
 }
