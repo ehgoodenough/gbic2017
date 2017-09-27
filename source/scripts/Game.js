@@ -18,13 +18,23 @@ export default class Game extends Pixi.Container {
             transparent: true
         })
 
+        this.addChild(this.title = new Pixi.Sprite(Pixi.Texture.from(require("images/title.png"))))
+        this.title.alpha = 0
+
         this.scale.x = SCALE
         this.scale.y = SCALE
-
-        this.addChild(this.scene = new MegaScene())
     }
     update(delta) {
-        if(this.scene) {
+        if(this.title != undefined) {
+            this.title.alpha += delta.s
+            if(window.hasHitAnyKey) {
+                this.removeChild(this.title)
+                delete this.title
+                this.addChild(this.scene = new MegaScene())
+            }
+        }
+
+        if(this.scene != undefined) {
             this.scene.update(delta)
         }
     }
