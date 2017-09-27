@@ -1,15 +1,17 @@
 import * as Pixi from "pixi.js"
 import Keyb from "keyb"
 
-var IDLE_TEXTURE = undefined
-var HAPPY_TEXTURE = undefined
+var WALKING_1_TEXTURE = undefined
+var WALKING_2_TEXTURE = undefined
+var JUMPING_1_TEXTURE = undefined
+var JUMPING_2_TEXTURE = undefined
 
 var GRAVITY = 0.5
 var JUMP_FORCE = -10
 var SPIN_FORCE = Math.PI * 3
 var SPIN_ON_NTH_JUMP = 5
 
-var SQUEEZE = 0.2
+var SQUEEZE = 0.05
 
 import {COLORS} from "scripts/Constants.js"
 
@@ -17,9 +19,11 @@ import {FRAME} from "scripts/Constants.js"
 
 export default class Player extends Pixi.Sprite {
     constructor() {
-        IDLE_TEXTURE = IDLE_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
-        HAPPY_TEXTURE = HAPPY_TEXTURE || Pixi.Texture.from(require("images/kitty.png"))
-        super(IDLE_TEXTURE)
+        WALKING_1_TEXTURE = WALKING_1_TEXTURE || Pixi.Texture.from(require("images/kitty-up.png"))
+        WALKING_2_TEXTURE = WALKING_2_TEXTURE || Pixi.Texture.from(require("images/kitty-down.png"))
+        JUMPING_1_TEXTURE = JUMPING_1_TEXTURE || Pixi.Texture.from(require("images/kitty-jump-open.png"))
+        JUMPING_2_TEXTURE = JUMPING_2_TEXTURE || Pixi.Texture.from(require("images/kitty-jump-close.png"))
+        super(WALKING_1_TEXTURE)
 
         this.tint = COLORS[1]
 
@@ -84,10 +88,10 @@ export default class Player extends Pixi.Sprite {
 
         // Effects while jumping
         if(this.position.y == 0) {
-            this.texture = IDLE_TEXTURE
+            this.texture = WALKING_1_TEXTURE
             this.rotation = Math.sin(this.time / 100) * (Math.PI / 8)
         } else {
-            this.texture = HAPPY_TEXTURE
+            this.texture = JUMPING_1_TEXTURE
         }
 
         if(this.velocity.y < 0) {
