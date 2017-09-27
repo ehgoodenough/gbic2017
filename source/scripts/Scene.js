@@ -71,6 +71,7 @@ export default class Scene extends Pixi.Container {
         }
     }
     killScene() {
+        window.music.pause()
         window.hasHitAnyKey = false
         this.parent.kill = 0.01
         MESSAGE.innerHTML = "GAME OVER"

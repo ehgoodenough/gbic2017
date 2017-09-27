@@ -53,6 +53,9 @@ class MegaScene extends Pixi.Container {
 
         this.addChild(new Planet())
         this.addChild(new Scene())
+        
+        window.music.currentTime = 0
+        window.music.play()
     }
     update(delta) {
         if(this.kill > 0) {

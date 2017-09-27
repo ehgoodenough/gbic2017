@@ -18,6 +18,11 @@ document.addEventListener("keydown", (event) => {
     window.hasHitAnyKey = true
 })
 
-document.addEventListener("mousedown", (event) => {
-    window.hasHitAnyKey = true
-})
+// document.addEventListener("mousedown", (event) => {
+//     window.hasHitAnyKey = true
+// })
+
+window.music = new Audio(require("music/blip-stream.mp3"))
+window.music.loop = true
+window.music.volume = 0.5
+// window.music.play()
